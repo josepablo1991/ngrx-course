@@ -34,6 +34,12 @@ export const authReducer = createReducer(
     return {
       user: action.user,
     }
+  }),
+
+  on(AuthActions.logout,(state:AuthState,action)=> {
+    return{
+      user: undefined
+    }
   })
 
 
