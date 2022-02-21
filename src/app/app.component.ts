@@ -3,6 +3,7 @@ import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {map} from 'rxjs/operators';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import { AppState } from './reducers';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,10 @@ export class AppComponent implements OnInit {
 
     loading = true;
 
-    constructor(private router: Router) {
+    isLoggedIn$: Observable<boolean>;
+    isLoggedOut$: Observable<boolean>;
+
+    constructor(private router: Router, private store: Store<AppState>) {
 
     }
 
@@ -37,6 +41,22 @@ export class AppComponent implements OnInit {
           }
         }
       });
+      // using the negeate 2 times to convert into its boolean value !! 
+      this.isLoggedIn$ = this.store
+        .pipe(
+          map(state => !!state["auth"].user)
+        );
+
+      this.isLoggedOut$ = this.store
+        .pipe(
+          map(state => !state["auth"].user)
+        );
+
+      this.isLoggedIn$.subscribe(console.log)
+
+      this.store.subscribe(state => console.log("store value", state));
+  
+      
 
     }
 
