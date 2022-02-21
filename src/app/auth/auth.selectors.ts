@@ -1,8 +1,12 @@
-import { createSelector } from "@ngrx/store";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { AuthState } from "./reducers";
+
+
+export const selectAuthState = createFeatureSelector<AuthState>("auth")
 
 // we can make a list of mapping functions
 export const isLoggedIn = createSelector(
-    state => state["auth"],
+    selectAuthState,
     // the final argument is the projector function from the above function
     (auth) => !!auth.user
 ); 
